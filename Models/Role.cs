@@ -19,5 +19,7 @@ public partial class Role
 
     public long? UpdatedBy { get; set; }
 
+    public virtual ICollection<RolePermission> RolePermissions { get; } = new List<RolePermission>();
+
     public virtual ICollection<User> Users { get; } = new List<User>();
 }

@@ -19,6 +19,8 @@ public partial class SmsContext : DbContext
 
     public virtual DbSet<Role> Roles { get; set; }
 
+    public virtual DbSet<RolePermission> RolePermissions { get; set; }
+
     public virtual DbSet<SubMenu> SubMenus { get; set; }
 
     public virtual DbSet<User> Users { get; set; }
@@ -52,6 +54,24 @@ public partial class SmsContext : DbContext
             entity.Property(e => e.Description).HasMaxLength(150);
             entity.Property(e => e.RoleName).HasMaxLength(100);
             entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+        });
+
+        modelBuilder.Entity<RolePermission>(entity =>
+        {
+            entity.ToTable("RolePermission");
+
+            entity.Property(e => e.Id).HasColumnName("ID");
+            entity.Property(e => e.CreatedDate).HasColumnType("datetime");
+            entity.Property(e => e.RoleId).HasColumnName("RoleID");
+            entity.Property(e => e.SubMenuId)
+                .HasMaxLength(10)
+                .HasColumnName("SubMenuID");
+            entity.Property(e => e.UpdatedDate).HasColumnType("datetime");
+
+            entity.HasOne(d => d.Role).WithMany(p => p.RolePermissions)
+                .HasForeignKey(d => d.RoleId)
+                .OnDelete(DeleteBehavior.ClientSetNull)
+                .HasConstraintName("FK_RolePermission_Role");
         });
 
         modelBuilder.Entity<SubMenu>(entity =>
