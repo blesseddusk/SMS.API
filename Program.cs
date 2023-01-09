@@ -1,4 +1,10 @@
+using Microsoft.EntityFrameworkCore;
+using SMS.API.Models;
+
 var builder = WebApplication.CreateBuilder(args);
+
+builder.Services.AddDbContext<SmsContext>(opt =>
+opt.UseSqlServer(builder.Configuration["ConnectionStrings:DefaultConnection"]));
 
 // Add services to the container.
 

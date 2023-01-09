@@ -1,5 +1,7 @@
 using Microsoft.AspNetCore.Mvc;
 
+using SMS.API.Models;
+
 namespace SMS.API.Controllers
 {
     [ApiController]
@@ -12,10 +14,12 @@ namespace SMS.API.Controllers
     };
 
         private readonly ILogger<WeatherForecastController> _logger;
+        private SmsContext _dbContext;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, SmsContext context)
         {
             _logger = logger;
+            _dbContext = context;
         }
 
         [HttpGet(Name = "GetWeatherForecast")]
